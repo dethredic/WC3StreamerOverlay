@@ -10,14 +10,14 @@ class BroadcastServer(Thread):
     self.port = port
 
   async def __connection_handler(self, websocket, path):
-    print('client connected')
+    print('Client connected')
     self.websocket = websocket
     try:
       await self.websocket.recv()
     except websockets.exceptions.ConnectionClosed:
       pass
     finally:
-      print('client disconnected')
+      print('Client disconnected')
       self.websocket = None
 
   def is_connected(self):

@@ -26,9 +26,7 @@ class GameState():
     return self.__read()['is_in_game'] == 1
 
   def open(self):
-    print('Open')
     self.shmem = mmap.mmap(-1, ObserverSharedMemory.sizeof(), "War3StatsObserverSharedMemory", access=mmap.ACCESS_READ)
 
   def close(self):
-    print('Close')
     self.shmem.close()
