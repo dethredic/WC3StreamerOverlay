@@ -1,7 +1,6 @@
 const socket = new WebSocket('ws://localhost:6110');
 
 socket.addEventListener('message', function (event) {
-  console.log('on message')
   var msg = JSON.parse(event.data);
   console.log(msg);
 
