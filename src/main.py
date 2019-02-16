@@ -38,9 +38,11 @@ def main():
 
   while True:
     if not game_state.is_valid():
-      # WC3 isn't running
-      time.sleep(10)
+      # print('Game state invalid')
+      # WC3 isn't running.
+      # If the game_state is open when WC3 is launched it will never be valid
       game_state.close()
+      time.sleep(10)
       game_state.open()
       continue
 
