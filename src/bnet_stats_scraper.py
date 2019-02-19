@@ -4,11 +4,11 @@ from bs4 import BeautifulSoup
 GatewayList = ['Azeroth', 'Lordaeron', 'Northrend', 'Kalimdor']
 
 class BNetStatsScraper:
-  def get_stats(name, gateway):
+  def get_stats(name, gateway, game_client):
     if gateway not in GatewayList:
       raise ValueError('Invalid Gateway')
 
-    page = urlopen('http://classic.battle.net/war3/ladder/W3XP-player-profile.aspx?Gateway=' + gateway + '&PlayerName=' + name)
+    page = urlopen('http://classic.battle.net/war3/ladder/' + game_client +'-player-profile.aspx?Gateway=' + gateway + '&PlayerName=' + name)
     soup = BeautifulSoup(page, 'html.parser')
     solo_games_text = soup.find(text='Solo Games')
     if solo_games_text is None:

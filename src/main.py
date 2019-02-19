@@ -1,5 +1,6 @@
 import json
 import time
+import sys
 
 from bnet_player_monitor import BNetPlayerMonitor
 from broadcast_server import BroadcastServer
@@ -21,7 +22,10 @@ def handle_game_started(server, player_monitor):
   send_msg(server, 'opponent_data', opponent.__dict__)
 
 def main():
-  player_monitor = BNetPlayerMonitor()
+  game_client = 'w3xp'
+  if len(sys.argv) == 2 and sys.argv[1] == 'roc':
+    game_client = sys.argv[1]
+  player_monitor = BNetPlayerMonitor(game_client)
   player_monitor.start()
 
   port = 6110
@@ -34,7 +38,7 @@ def main():
   is_in_game = False
   
 
-  print('Initialized')
+  print('Initialized ' + game_client + ' version')
 
   while True:
     if not game_state.is_valid():

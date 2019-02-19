@@ -20,15 +20,16 @@ GatewayNetMap = {
 }
 
 class BNetPlayerMonitor(Thread):
-  def __init__(self):
+  def __init__(self, game_client):
     super(BNetPlayerMonitor, self).__init__()
     self.daemon = True
     self.me = Player()
     self.opponent = Player()
     self.gateway = None
+    self.game_client = game_client
 
   def __get_player_stats(self, player):
-    player.wins, player.losses = BNetStatsScraper.get_stats(player.name, self.gateway)
+    player.wins, player.losses = BNetStatsScraper.get_stats(player.name, self.gateway, self.game_client)
     games_played = player.wins + player.losses
     if games_played:
       player.win_percent = int(100 * player.wins / games_played)
