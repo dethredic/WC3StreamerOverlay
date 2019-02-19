@@ -57,6 +57,10 @@ def main():
       is_in_game = game_state.is_in_game()
 
       if is_in_game:
+        # Delay a bit to allow the stat lookups to finish
+        # This is more of a problem when the game loads too quick
+        time.sleep(2)
+
         print('Game started')
         handle_game_started(server, player_monitor)
       else:
