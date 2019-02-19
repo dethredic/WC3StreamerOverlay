@@ -35,15 +35,10 @@ class BNetPlayerMonitor(Thread):
     else:
       player.win_percent = 0
 
-  def __parse_self_packet(self, data):
-    self.me.name = str(data[19:].split(b'\x00')[0], 'utf-8')
-    race_offset = 19 + len(self.me.name) + 6
-    self.me.race = RaceNameMap[data[race_offset:race_offset + 1]]
-
-  def __parse_opponent_packet(self, data):
-    self.opponent.name = str(data[9:].split(b'\x00')[0], 'utf-8')
-    race_offset = 9 + len(self.opponent.name) + 6
-    self.opponent.race = RaceNameMap[data[race_offset:race_offset + 1]]
+  def __parse_player_packet(self, player, data, offset):
+    player.name = str(data[offset:].split(b'\x00')[0], 'utf-8')
+    race_offset = offset + len(player.name) + 6
+    player.race = RaceNameMap[data[race_offset:race_offset + 1]]
 
   def __set_gateway(self, packet):
     if IP in packet:
@@ -58,10 +53,10 @@ class BNetPlayerMonitor(Thread):
 
     if raw_payload[:2] == b'\xf7\x1e':
       self.__set_gateway(packet)
-      self.__parse_self_packet(raw_payload)
+      self.__parse_player_packet(self.me, raw_payload, 19)
       self.__get_player_stats(self.me)
     elif raw_payload[:2] == b'\xf7\x06':
-      self.__parse_opponent_packet(raw_payload)
+      self.__parse_player_packet(self.opponent, raw_payload, 9)
       self.__get_player_stats(self.opponent)
 
   def __build_filter(self):

@@ -33,6 +33,6 @@ class BroadcastServer(Thread):
     self.event_loop = asyncio.new_event_loop()
     asyncio.set_event_loop(self.event_loop)
 
-    ws_server = websockets.serve(self.__connection_handler, 'localhost', 6110)
+    ws_server = websockets.serve(self.__connection_handler, 'localhost', self.port)
     self.event_loop.run_until_complete(ws_server)
     self.event_loop.run_forever()
