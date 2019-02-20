@@ -1,14 +1,15 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+from game_info import GameInfo
 
-GatewayList = ['Azeroth', 'Lordaeron', 'Northrend', 'Kalimdor']
+GatewayList = ['Azeroth', 'Lordaeron', 'Northrend']
 
 class BNetStatsScraper:
   def get_stats(name, gateway):
     if gateway not in GatewayList:
       raise ValueError('Invalid Gateway')
 
-    page = urlopen('http://classic.battle.net/war3/ladder/W3XP-player-profile.aspx?Gateway=' + gateway + '&PlayerName=' + name)
+    page = urlopen('http://classic.battle.net/war3/ladder/' + GameInfo.get_game_version_str() + '-player-profile.aspx?Gateway=' + gateway + '&PlayerName=' + name)
     soup = BeautifulSoup(page, 'html.parser')
     solo_games_text = soup.find(text='Solo Games')
     if solo_games_text is None:
