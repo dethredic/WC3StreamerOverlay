@@ -7,18 +7,18 @@ from game_state import GameState
 from player import Player
 
 
+def obj_dict(obj):
+  return obj.__dict__
+
 def send_msg(server, type, data=None):
-  server.send(json.dumps({'type': type, 'data': data}))
+  server.send(json.dumps({'type': type, 'data': data}, default=obj_dict))
 
-def handle_game_started(server, player_monitor):
+def handle_game_started(server, player_list):
   send_msg(server, 'game_started')
+  for player in player_list:
+    player.print()
+  send_msg(server, 'player_data', player_list)
 
-  me = player_monitor.get_me_data()
-  opponent = player_monitor.get_opponent_data()
-  me.print()
-  opponent.print()
-  send_msg(server, 'me_data', me.__dict__)
-  send_msg(server, 'opponent_data', opponent.__dict__)
 
 def main():
   player_monitor = BNetPlayerMonitor()
@@ -46,26 +46,27 @@ def main():
       game_state.open()
       continue
 
-    if server.is_connected() != server_connected:
+    if server.is_connected() is not server_connected:
       server_connected = server.is_connected()
       if server_connected and is_in_game:
         # The client connected late (already in a game)
         # Give it the current info if valid
         handle_game_started(server, player_monitor)
 
-    if is_in_game != game_state.is_in_game():
+    if is_in_game is not game_state.is_in_game():
       is_in_game = game_state.is_in_game()
 
       if is_in_game:
         # Delay a bit to allow the stat lookups to finish
         # This is more of a problem when the game loads too quick
-        time.sleep(2)
+        time.sleep(3)
 
         print('Game started')
-        handle_game_started(server, player_monitor)
+        handle_game_started(server, player_monitor.get_players())
       else:
         print('Game ended')
         send_msg(server, 'game_ended')
+        player_monitor.reset_players()
 
     time.sleep(1)
 

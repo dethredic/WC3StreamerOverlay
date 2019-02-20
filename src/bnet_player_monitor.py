@@ -1,7 +1,7 @@
 from scapy.all import sniff, raw, IP
 from threading import Thread
 
-from player import Player
+from player import Player, Stats
 from bnet_stats_scraper import BNetStatsScraper
 
 RaceNameMap = {
@@ -23,8 +23,7 @@ class BNetPlayerMonitor(Thread):
   def __init__(self):
     super(BNetPlayerMonitor, self).__init__()
     self.daemon = True
-    self.me = Player()
-    self.opponent = Player()
+    self.player_list = []
     self.gateway = None
 
   def __get_player_stats(self, player):
@@ -35,10 +34,11 @@ class BNetPlayerMonitor(Thread):
     else:
       player.win_percent = 0
 
-  def __parse_player_packet(self, player, data, offset):
-    player.name = str(data[offset:].split(b'\x00')[0], 'utf-8')
-    race_offset = offset + len(player.name) + 6
+  def __parse_player_packet(self, player, data, name_offset):
+    player.name = str(data[name_offset:].split(b'\x00')[0], 'utf-8')
+    race_offset = name_offset + len(player.name) + 6
     player.race = RaceNameMap[data[race_offset:race_offset + 1]]
+    player.id = data[name_offset - 1]
 
   def __set_gateway(self, packet):
     if IP in packet:
@@ -53,11 +53,20 @@ class BNetPlayerMonitor(Thread):
 
     if raw_payload[:2] == b'\xf7\x1e':
       self.__set_gateway(packet)
-      self.__parse_player_packet(self.me, raw_payload, 19)
-      self.__get_player_stats(self.me)
+
+      player = Player()
+      player.is_me = True
+      self.__parse_player_packet(player, raw_payload, 19)
+      BNetStatsScraper.get_stats(player, self.gateway)
+      self.player_list.append(player)
     elif raw_payload[:2] == b'\xf7\x06':
-      self.__parse_player_packet(self.opponent, raw_payload, 9)
-      self.__get_player_stats(self.opponent)
+      player_offset = 0
+      while player_offset is not -1:
+        player = Player()
+        self.__parse_player_packet(player, raw_payload[player_offset:], 9)
+        BNetStatsScraper.get_stats(player, self.gateway)
+        self.player_list.append(player)
+        player_offset = raw_payload.find(b'\xf7\x06', player_offset + 1)
 
   def __build_filter(self):
     or_str = ' or '
@@ -69,8 +78,8 @@ class BNetPlayerMonitor(Thread):
   def run(self):
     sniff(filter=self.__build_filter(), prn=self.__packet_callback, store=0)
 
-  def get_me_data(self):
-    return self.me
+  def reset_players(self):
+    self.player_list = []
 
-  def get_opponent_data(self):
-    return self.opponent
+  def get_players(self):
+    return self.player_list
