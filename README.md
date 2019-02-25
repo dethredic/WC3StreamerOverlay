@@ -29,6 +29,16 @@ Only 1v1 games on bnet are supported. Custom games, local games and team games a
   - FPS: 1
   - Resize / move as desired
 
+## Development
+### Requirements
+- Warcraft III
+- [Python 3](https://www.python.org/)
+- [Npcap](https://nmap.org/npcap/#download)
+- npm (or yarn)
+- `pip install -r requirements.txt`
+- `cd client && npm install`
+- Follow the direction in `client/README.md`
+
 ## Future Ideas
 - Create an executable for easy use
 - Improve the UI of the client
