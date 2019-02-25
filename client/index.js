@@ -36,6 +36,7 @@ function handle_msg(msg) {
 const socket = new WebSocket('ws://localhost:6110');
 
 socket.addEventListener('message', function (event) {
+  console.log(event.data)
   var msg = JSON.parse(event.data);
   handle_msg(msg)
 });
