@@ -4,7 +4,7 @@ A simple tool for WC3 streamers to display their opponent's race and stats
 ## Summary
 Only bnet games are supported (ROC and TFT). Custom games and local games are unsupported
 
-[Twitch Clip](https://clips.twitch.tv/SassyBeautifulFlamingoHassanChop)
+[Twitch Example](https://www.twitch.tv/videos/387166497)
 
 ![screenshot example](/screenshots/2v2.png)
 
