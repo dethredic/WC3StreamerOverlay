@@ -1,4 +1,4 @@
-# WC3 Stat and Race Bot
+# WC3 Streamer Overlay
 A simple tool for WC3 streamers to display their opponent's race and stats
 
 ## Summary
