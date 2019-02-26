@@ -13,6 +13,16 @@ def obj_dict(obj):
 def send_msg(server, type, data=None):
   server.send(json.dumps({'type': type, 'data': data}, default=obj_dict))
 
+def set_my_id(player_list):
+  ids = list(range(1, len(player_list) + 1))
+  for player in player_list:
+    if not player.is_me:
+      ids.remove(player.id)
+
+  for player in player_list:
+    if player.is_me:
+      player.id = ids[0]
+
 def get_teams_from_player_list(player_list):
   team1 = []
   team2 = []
@@ -30,6 +40,7 @@ def get_teams_from_player_list(player_list):
   return team1, team2
 
 def handle_game_started(server, player_list):
+  set_my_id(player_list);
   for player in player_list:
     player.print()
 
@@ -51,7 +62,7 @@ def main():
   game_state = GameState()
   game_state.open()
   is_in_game = False
-  
+
 
   print('Initialized')
 
@@ -59,6 +70,10 @@ def main():
     if not game_state.is_valid():
       # print('Game state invalid')
       # WC3 isn't running.
+      if (is_in_game):
+        print('Game closed')
+        send_msg(server, 'game_ended')
+        is_in_game = False
       # If the game_state is open when WC3 is launched it will never be valid
       game_state.close()
       time.sleep(10)

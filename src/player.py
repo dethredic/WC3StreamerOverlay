@@ -15,4 +15,4 @@ class Player:
     self.ffa_stats = Stats()
 
   def print(self):
-    print('{} ({}) - Solo: W:{} L:{} ({}%) - Team: W:{} L:{} ({}%) - FFA: W:{} L:{} ({}%)'.format(self.name, self.race, self.solo_stats.wins, self.solo_stats.losses, self.solo_stats.win_percent, self.team_stats.wins, self.team_stats.losses, self.team_stats.win_percent, self.ffa_stats.wins, self.ffa_stats.losses, self.ffa_stats.win_percent))
+    print('[{}] {} ({}) - Solo: W:{} L:{} ({}%) - Team: W:{} L:{} ({}%) - FFA: W:{} L:{} ({}%)'.format(self.id, self.name, self.race, self.solo_stats.wins, self.solo_stats.losses, self.solo_stats.win_percent, self.team_stats.wins, self.team_stats.losses, self.team_stats.win_percent, self.ffa_stats.wins, self.ffa_stats.losses, self.ffa_stats.win_percent))

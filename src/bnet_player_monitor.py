@@ -15,7 +15,7 @@ RaceNameMap = {
 # TODO: Get IPs from other Gateways
 GatewayNetMap = {
   'Azeroth': '199.108.55.0/24',
-  'Lordaeron': '12.129.236.0/24', 
+  'Lordaeron': '12.129.236.0/24',
   'Northrend': '5.42.181.0/24',
 }
 
@@ -38,11 +38,13 @@ class BNetPlayerMonitor(Thread):
     player.name = str(data[name_offset:].split(b'\x00')[0], 'utf-8')
     race_offset = name_offset + len(player.name) + 6
     player.race = RaceNameMap[data[race_offset:race_offset + 1]]
+    # Setting the id doesn't work for yourself.
+    # We fill it in later when we have the other IDs
     player.id = data[name_offset - 1]
 
   def __set_gateway(self, packet):
     if IP in packet:
-      partial_ip = ".".join(str(packet[IP].dst).split('.')[0:-1]) 
+      partial_ip = ".".join(str(packet[IP].dst).split('.')[0:-1])
       for name, ip in GatewayNetMap.items():
         if partial_ip in ip:
           print('Setting gateway: ' + name)
