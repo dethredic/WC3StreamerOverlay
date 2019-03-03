@@ -10,6 +10,7 @@ function Team(props) {
         <Player key={player.id} 
           {...{
             name: player.name,
+            alias: player.alias,
             race: player.race,
             wins: use_solo_stats
               ? player.solo_stats.wins
