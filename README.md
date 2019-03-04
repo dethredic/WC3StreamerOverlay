@@ -4,9 +4,10 @@ A simple tool for WC3 streamers to display their opponent's race and stats
 ## Summary
 Only bnet games are supported (ROC and TFT). Custom games and local games are unsupported
 
-[Twitch Example](https://www.twitch.tv/videos/387166497)
+[Twitch Example (Old UI)](https://www.twitch.tv/videos/387166497)
 
-![screenshot example](/screenshots/2v2.png)
+![1v1](/screenshots/1v1.png)
+![2v2](/screenshots/2v2.png)
 
 
 - The Warcraft III Observer API (War3StatsObserverSharedMemory) is used to determine if a game is in progress
@@ -21,8 +22,8 @@ Only bnet games are supported (ROC and TFT). Custom games and local games are un
 - Run the executable
 - In OBS add a new browser source:
   - Local file: `client/index.html`
-  - Width: Display Width (tested with 2560)
-  - Height: ~400
+  - Width: 280
+  - Height: ~300 (use more for team games)
   - FPS: 1
   - Move/resize as desired
 - Look for the `Client connected` log. If you don't see that then `Refresh cache of current page` under the source settings
