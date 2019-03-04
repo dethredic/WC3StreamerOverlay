@@ -24,7 +24,6 @@ Only bnet games are supported (ROC and TFT). Custom games and local games are un
   - Local file: `client/index.html`
   - Width: 280
   - Height: ~300 (use more for team games)
-  - FPS: 1
   - Move/resize as desired
 - Look for the `Client connected` log. If you don't see that then `Refresh cache of current page` under the source settings
 
