@@ -4,9 +4,7 @@ from threading import Thread
 
 from player import Player, Stats
 from bnet_stats_scraper import BNetStatsScraper
-
-with open('aliases.json') as json_data:
-  PlayerAliases = json.load(json_data)
+from wc3info_alias_interface import Wc3InfoAliasInterface
 
 RaceNameMap = {
   b'\x01': 'Human',
@@ -38,15 +36,11 @@ class BNetPlayerMonitor(Thread):
     else:
       player.win_percent = 0
 
-  def __get_player_alias(self, player_name):
-    if player_name in PlayerAliases.keys():
-      return PlayerAliases[player_name]
-
   def __parse_player_packet(self, player, data, name_offset):
     player.name = str(data[name_offset:].split(b'\x00')[0], 'utf-8')
     race_offset = name_offset + len(player.name) + 6
     player.race = RaceNameMap[data[race_offset:race_offset + 1]]
-    player.alias = self.__get_player_alias(player.name)
+    Wc3InfoAliasInterface.get_alias(player, self.gateway)
     # Setting the id doesn't work for yourself.
     # We fill it in later when we have the other IDs
     player.id = data[name_offset - 1]
