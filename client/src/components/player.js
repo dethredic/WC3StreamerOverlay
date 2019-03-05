@@ -18,12 +18,12 @@ function GetRaceIcon(race) {
 function Player(player) {
   let name = <Typography variant="h6">{player.name}</Typography>;
 
-  if(player.aka) {
+  if(player.alias) {
     name = (
-      <div>
-        <Typography variant="h6">{player.aka}</Typography>
-        <Typography color="textSecondary" variant="subtitle1">aka {player.name}</Typography>
-      </div>
+      <React.Fragment>
+        <Typography variant="h6">{player.alias}</Typography>
+        <Typography color="textSecondary" variant="subtitle1">as {player.name}</Typography>
+      </React.Fragment>
     );
   }
 
