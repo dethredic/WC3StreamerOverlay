@@ -7,8 +7,6 @@ Only bnet games are supported (ROC and TFT). Custom games and local games are un
 [Twitch Example (Old UI)](https://www.twitch.tv/videos/387166497)
 
 ![1v1](/screenshots/1v1.png)
-![2v2](/screenshots/2v2.png)
-
 
 - The Warcraft III Observer API (War3StatsObserverSharedMemory) is used to determine if a game is in progress
 - A packet sniffer is used to obtain the opponent's name and race
