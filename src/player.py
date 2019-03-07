@@ -9,6 +9,7 @@ class Player:
     self.id = None
     self.is_me = False
     self.name = None
+    self.alias = None
     self.race = None
     self.solo_stats = Stats()
     self.team_stats = Stats()

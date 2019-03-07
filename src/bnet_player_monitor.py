@@ -1,8 +1,10 @@
+import json
 from scapy.all import sniff, raw, IP
 from threading import Thread
 
 from player import Player, Stats
 from bnet_stats_scraper import BNetStatsScraper
+from wc3info_alias_interface import Wc3InfoAliasInterface
 
 RaceNameMap = {
   b'\x01': 'Human',
@@ -38,6 +40,7 @@ class BNetPlayerMonitor(Thread):
     player.name = str(data[name_offset:].split(b'\x00')[0], 'utf-8')
     race_offset = name_offset + len(player.name) + 6
     player.race = RaceNameMap[data[race_offset:race_offset + 1]]
+    Wc3InfoAliasInterface.get_alias(player, self.gateway)
     # Setting the id doesn't work for yourself.
     # We fill it in later when we have the other IDs
     player.id = data[name_offset - 1]

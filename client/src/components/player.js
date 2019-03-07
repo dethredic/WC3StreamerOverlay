@@ -16,6 +16,17 @@ function GetRaceIcon(race) {
 }
 
 function Player(player) {
+  let name = <Typography variant="h6">{player.name}</Typography>;
+
+  if(player.alias) {
+    name = (
+      <React.Fragment>
+        <Typography variant="h6">{player.alias}</Typography>
+        <Typography color="textSecondary" variant="subtitle1">as {player.name}</Typography>
+      </React.Fragment>
+    );
+  }
+
   return (
     <Grid container spacing={16} wrap="nowrap" alignItems="center">
       <Grid item>
@@ -25,7 +36,7 @@ function Player(player) {
       </Grid>
       <Grid item sm>
         <Grid item sm>
-          <Typography variant="h6">{player.name}</Typography>
+          {name}
           <Grid container spacing={16} direction="row">
             <Grid item>
               <Typography variant="subtitle1">{player.win_percentage}%</Typography>
