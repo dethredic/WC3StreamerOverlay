@@ -45,4 +45,3 @@ Only bnet games are supported (ROC and TFT). Custom games and local games are un
 
 ## Future Ideas
 - Support a custom port via an argument or config file
-- Look up player alias' from something like (warcraft3.info)

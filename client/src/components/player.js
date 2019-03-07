@@ -16,36 +16,38 @@ function GetRaceIcon(race) {
 }
 
 function Player(player) {
-  let name = <Typography variant="h6">{player.name}</Typography>;
+  let name = <Typography noWrap variant="h6">{player.name}</Typography>;
 
-  if(player.alias) {
+  if (player.alias && player.name !== player.alias) {
     name = (
       <React.Fragment>
-        <Typography variant="h6">{player.alias}</Typography>
-        <Typography color="textSecondary" variant="subtitle1">as {player.name}</Typography>
+        <Typography noWrap variant="h6" style={{marginTop:-3, marginBottom:-6}}>{player.alias}</Typography>
+        <Typography noWrap color="textSecondary" variant="subtitle2" style={{marginBottom:-2}}>as {player.name}</Typography>
       </React.Fragment>
     );
   }
 
   return (
-    <Grid container spacing={16} wrap="nowrap" alignItems="center">
+    <Grid container wrap="nowrap" alignItems="center" spacing={16}>
       <Grid item>
-        <div>
-          <img width="64"alt="" src={GetRaceIcon(player.race)} />
-        </div>
+        <img width="64" alt="" src={GetRaceIcon(player.race)} />
       </Grid>
-      <Grid item sm>
-        <Grid item sm>
-          {name}
-          <Grid container spacing={16} direction="row">
-            <Grid item>
-              <Typography variant="subtitle1">{player.win_percentage}%</Typography>
-            </Grid>
-            <Grid item>
-              <Typography color="textSecondary" variant="subtitle1">W:{player.wins}</Typography>
-            </Grid>
-            <Grid item>
-              <Typography color="textSecondary" variant="subtitle1">L:{player.losses}</Typography>
+      <Grid item xs zeroMinWidth>
+        <Grid container direction="column">
+          <Grid item xs>
+            {name}
+          </Grid>
+          <Grid item xs>
+            <Grid container>
+              <Grid item xs>
+                <Typography variant="subtitle1">{player.win_percentage}%</Typography>
+              </Grid>
+              <Grid item xs>
+                <Typography variant="subtitle1" style={{ color: "#4caf50" }}>{player.wins}</Typography>
+              </Grid>
+              <Grid item xs>
+                <Typography variant="subtitle1" style={{ color: "#f44336" }}>{player.losses}</Typography>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
@@ -53,4 +55,5 @@ function Player(player) {
     </Grid>
   );
 }
+
 export default Player;
