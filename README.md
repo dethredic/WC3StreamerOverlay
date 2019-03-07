@@ -19,13 +19,16 @@ Only bnet games are supported (ROC and TFT). Custom games and local games are un
 ## Usage
 - Install [Npcap](https://nmap.org/npcap/#download)
 - [Download the latest release](https://github.com/dethredic/WC3StreamerOverlay/releases)
-- Run the executable
 - In OBS add a new browser source:
   - Local file: `client/index.html`
   - Width: 280
   - Height: ~300 (use more for team games)
   - Move/resize as desired
-- Look for the `Client connected` log. If you don't see that then `Refresh cache of current page` under the source settings
+- To test your overlay size / position, run `test_1v1` or `test_teams`. This just fills the client with dummy data
+- Run `WC3StreamerOverlay`
+
+## Troubleshooting
+- Look for the `Client connected` log. If you don't see that then `Refresh cache of current page` under the browser source settings in OBS
 
 ## Development
 ### Requirements
