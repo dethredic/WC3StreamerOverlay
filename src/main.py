@@ -73,6 +73,7 @@ def main():
       if (is_in_game):
         print('Game closed')
         send_msg(server, 'game_ended')
+        player_monitor.reset_players()
         is_in_game = False
       # If the game_state is open when WC3 is launched it will never be valid
       game_state.close()
