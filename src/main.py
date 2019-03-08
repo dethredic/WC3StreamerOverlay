@@ -40,6 +40,10 @@ def get_teams_from_player_list(player_list):
   return team1, team2
 
 def handle_game_started(server, player_list):
+  if len(player_list) is 0:
+    # Tool started after a game has started
+    return
+
   set_my_id(player_list);
   for player in player_list:
     player.print()
