@@ -6,7 +6,7 @@ class Wc3InfoAliasInterface:
   def __get_alias(player, data):
     alias = None
     for entry in data:
-      if entry['aka'] is None:
+      if entry['aka'] is None or entry['aka'] is '':
         continue
       if entry['daily_history']['name'] == player.name:
         alias_pat = re.compile(r'.*>(.*)</a>')
