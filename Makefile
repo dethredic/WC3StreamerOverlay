@@ -5,8 +5,8 @@ release:
 	@pyinstaller.exe -F -n WC3StreamerOverlay --specpath build src/main.py
 
 	@echo 'Building tests...'
-	@pyinstaller.exe -F -n test_1v1 --specpath build tests/test_1v1.py
-	@pyinstaller.exe -F -n test_team --specpath build tests/test_team.py
+	@pyinstaller.exe -F -n test_1v1 --paths=src --specpath build tests/test_1v1.py
+	@pyinstaller.exe -F -n test_team --paths=src --specpath build tests/test_team.py
 
 	@echo 'Building client...'
 	@cd client; npm install
