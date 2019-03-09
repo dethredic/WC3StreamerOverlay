@@ -22,7 +22,6 @@ Only bnet games are supported (ROC and TFT). Custom games and local games are un
   - Width: 280
   - Height: ~300 (use more for team games)
   - Move/resize as desired
-- To test your overlay size / position, run `test_1v1` or `test_teams`. This just fills the client with dummy data
 - Run `WC3StreamerOverlay`
 
 ## Troubleshooting
