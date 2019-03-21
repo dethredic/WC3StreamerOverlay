@@ -39,6 +39,19 @@ def get_teams_from_player_list(player_list):
 
   return team1, team2
 
+# A hack to copy AT stats RT stats. I need to re-think what the client gets sent
+def set_at_stats(team):
+  for at in team[0].at_stats:
+    matches = 0
+    for player in team:
+      print('{} in {} ?'.format(player.name, at.partners))
+      if player.name in at.partners:
+        matches += 1;
+        print('matches {}'.format(matches))
+    if matches is len(team) - 1:
+      for player in team:
+        player.team_stats = at.stats
+
 def handle_game_started(server, player_list):
   if len(player_list) is 0:
     # Tool started after a game has started
@@ -49,9 +62,12 @@ def handle_game_started(server, player_list):
     player.print()
 
   team1, team2 = get_teams_from_player_list(player_list)
+
+  set_at_stats(team1)
+  set_at_stats(team2)
+
   send_msg(server, 'player_data', [team1, team2])
   send_msg(server, 'game_started')
-
 
 
 def main():
