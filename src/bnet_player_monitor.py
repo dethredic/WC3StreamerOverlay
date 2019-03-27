@@ -1,6 +1,7 @@
 import json
 from scapy.all import sniff, raw, IP
 from threading import Thread
+from hexdump import *
 
 from player import Player, Stats
 from bnet_stats_scraper import BNetStatsScraper
@@ -46,9 +47,17 @@ class BNetPlayerMonitor(Thread):
           self.gateway = name
 
   def __packet_callback(self, packet):
+    if not IP in packet:
+      return
+
+    if not (('5.42.181' in packet[IP].dst) or ('5.42.181' in packet[IP].src)):
+      return
+
     raw_payload = raw(packet.payload.payload.payload)
 
     if raw_payload[:2] == b'\xf7\x1e':
+      print('Self Packet:')
+      print(hexdump(raw_payload))
       self.__set_gateway(packet)
 
       player = Player()
@@ -57,6 +66,8 @@ class BNetPlayerMonitor(Thread):
       BNetStatsScraper.get_stats(player, self.gateway)
       self.player_list.append(player)
     elif raw_payload[:2] == b'\xf7\x06':
+      print('Opponent Packet:')
+      print(hexdump(raw_payload))
       player_offset = 0
       while player_offset is not -1:
         player = Player()
@@ -73,7 +84,7 @@ class BNetPlayerMonitor(Thread):
     return filter_str[:len(filter_str) - len(or_str)]
 
   def run(self):
-    sniff(filter=self.__build_filter(), prn=self.__packet_callback, store=0)
+    sniff(prn=self.__packet_callback, store=0)
 
   def reset_players(self):
     self.player_list = []
