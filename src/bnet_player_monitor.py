@@ -77,7 +77,7 @@ class BNetPlayerMonitor(Thread):
     or_str = ' or '
     filter_str = ''
     for ip in GatewayNetMap.values():
-      filter_str += 'host ' + ip + or_str
+      filter_str += 'net ' + ip + or_str
     return filter_str[:len(filter_str) - len(or_str)]
 
   def run(self):
