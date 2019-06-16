@@ -1,4 +1,3 @@
-import re
 import requests
 
 
@@ -14,6 +13,6 @@ class Wc3InfoAliasInterface:
 
   def get_alias(player, gateway):
     url = 'https://warcraft3.info/stats/bnet_data?server=' + gateway
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
     if response.status_code == requests.codes.ok:
       Wc3InfoAliasInterface.__get_alias(player, response.json()['ranking'])

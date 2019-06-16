@@ -28,8 +28,12 @@ class BNetStatsScraper:
     if gateway not in GatewayList:
       raise ValueError('Invalid Gateway')
 
-    page = urlopen('http://classic.battle.net/war3/ladder/' + GameInfo.get_game_version_str() + '-player-profile.aspx?Gateway=' + gateway + '&PlayerName=' + player.name)
-    soup = BeautifulSoup(page, 'html.parser')
-    BNetStatsScraper.__get_stat(soup, player.solo_stats, 'Solo Games')
-    BNetStatsScraper.__get_stat(soup, player.team_stats, 'Team Games')
-    BNetStatsScraper.__get_stat(soup, player.ffa_stats, 'FFA Games')
+    try:
+      url = 'http://classic.battle.net/war3/ladder/' + GameInfo.get_game_version_str() + '-player-profile.aspx?Gateway=' + gateway + '&PlayerName=' + player.name
+      page = urlopen(url, timeout=10)
+      soup = BeautifulSoup(page, 'html.parser')
+      BNetStatsScraper.__get_stat(soup, player.solo_stats, 'Solo Games')
+      BNetStatsScraper.__get_stat(soup, player.team_stats, 'Team Games')
+      BNetStatsScraper.__get_stat(soup, player.ffa_stats, 'FFA Games')
+    except:
+      player.solo_stats.wins = player.team_stats.wins = player.ffa_stats.wins = -1

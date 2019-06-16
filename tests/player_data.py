@@ -5,6 +5,7 @@ from player import Player
 
 p1 = Player()
 p1.id = 1
+p1.is_me = True
 p1.name = 'FollowGrubby'
 p1.alias = 'Grubby'
 p1.race = 'Orc'
@@ -29,6 +30,7 @@ p2.team_stats.win_percent = 98
 
 p3 = Player()
 p3.id = 3
+p3.is_me = True
 p3.name = 'RomanticHuman'
 p3.alias = 'ToD'
 p3.race = 'Human'
@@ -95,3 +97,17 @@ p8.solo_stats.win_percent = 0
 p8.team_stats.wins = 15
 p8.team_stats.losses = 0
 p8.team_stats.win_percent = 100
+
+p9 = Player()
+p9.id = 9
+p9.name = 'feelsHuman'
+p9.race = 'Human'
+p9.solo_stats.wins = -1
+p9.team_stats.wins = -1
+
+p10 = Player()
+p10.id = 10
+p10.name = 'feelsUndeadMan'
+p10.race = 'Undead'
+p10.solo_stats.wins = -1
+p10.team_stats.wins = -1
