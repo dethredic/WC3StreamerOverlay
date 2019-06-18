@@ -13,6 +13,7 @@ class TestRunner:
     while True:
       for m in self.matchups:
         await websocket.send(json.dumps({'type': 'game_started'}))
+        await websocket.send(json.dumps({'type': 'map_name', 'data': 'Last Refuge'}))
         await websocket.send(json.dumps({'type': 'player_data', 'data': m}, default=obj_dict))
         await asyncio.sleep(6)
         await websocket.send(json.dumps({'type': 'game_ended'}))

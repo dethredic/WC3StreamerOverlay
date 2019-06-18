@@ -1,3 +1,4 @@
+import re
 import json
 import time
 
@@ -5,7 +6,6 @@ from bnet_player_monitor import BNetPlayerMonitor
 from broadcast_server import BroadcastServer
 from game_state import GameState
 from player import Player
-
 
 def obj_dict(obj):
   return obj.__dict__
@@ -52,7 +52,8 @@ def handle_game_started(server, player_list):
   send_msg(server, 'player_data', [team1, team2])
   send_msg(server, 'game_started')
 
-
+def handle_map(server, mapname):
+  send_msg(server, 'map_name', re.search(r"\(\d*\)(.*).w3", mapname).group(1).title())
 
 def main():
   player_monitor = BNetPlayerMonitor()
@@ -99,14 +100,13 @@ def main():
         # Delay a bit to allow the stat lookups to finish
         # This is more of a problem when the game loads too quick
         time.sleep(3)
-
         print('Game started')
+        handle_map(server, game_state.map_name())
         handle_game_started(server, player_monitor.get_players())
       else:
         print('Game ended')
         send_msg(server, 'game_ended')
         player_monitor.reset_players()
-
     time.sleep(1)
 
 if __name__ == "__main__":

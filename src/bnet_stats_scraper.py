@@ -1,5 +1,6 @@
 from player import Player, Stats
 import winreg
+import requests
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from game_info import GameInfo
@@ -28,8 +29,28 @@ class BNetStatsScraper:
     if gateway not in GatewayList:
       raise ValueError('Invalid Gateway')
 
-    page = urlopen('http://classic.battle.net/war3/ladder/' + GameInfo.get_game_version_str() + '-player-profile.aspx?Gateway=' + gateway + '&PlayerName=' + player.name)
-    soup = BeautifulSoup(page, 'html.parser')
-    BNetStatsScraper.__get_stat(soup, player.solo_stats, 'Solo Games')
-    BNetStatsScraper.__get_stat(soup, player.team_stats, 'Team Games')
-    BNetStatsScraper.__get_stat(soup, player.ffa_stats, 'FFA Games')
+    try:
+      # try grabbing stats from battle.net
+      url = 'http://classic.battle.net/war3/ladder/' + GameInfo.get_game_version_str() + '-player-profile.aspx?Gateway=' + gateway + '&PlayerName=' + player.name
+      page = urlopen(url, timeout=10)
+      soup = BeautifulSoup(page, 'html.parser')
+      BNetStatsScraper.__get_stat(soup, player.solo_stats, 'Solo Games')
+      BNetStatsScraper.__get_stat(soup, player.team_stats, 'Team Games')
+      BNetStatsScraper.__get_stat(soup, player.ffa_stats, 'FFA Games')
+    except:
+      try:
+        # fallback top 1000 stats from warcraft 3
+        url = 'https://warcraft3.info/stats/bnet_data?server=' + gateway
+        response = requests.get(url, timeout=5)
+        if response.status_code == requests.codes.ok:
+          for entry in response.json()['ranking']:
+            if entry['name'] is None or entry['name'] is '':
+              continue
+            if entry['name'].lower() == player.name.lower():
+              player.solo_stats.wins = entry['wins']
+              player.solo_stats.losses = entry['losses']
+              player.solo_stats.winrate = entry['winrate']
+              player.team_stats.wins = player.ffa_stats.wins = -1
+              break
+      except:
+        player.solo_stats.wins = player.team_stats.wins = player.ffa_stats.wins = -1
