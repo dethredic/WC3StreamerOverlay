@@ -16,7 +16,7 @@ class Player:
     self.ffa_stats = Stats()
 
   def print(self):
-    if self.solo_stats.wins == -1 or self.team_stats.wins == -1 or self.ffa_stats.wins == -1:
+    if self.solo_stats.wins == -1 and self.team_stats.wins == -1 and self.ffa_stats.wins == -1:
       print('Can not reach battle.net webprofiles for: ')
       print('[{}] {} ({})'.format(self.id, self.name, self.race))
     else:

@@ -50,6 +50,7 @@ class BNetStatsScraper:
               player.solo_stats.wins = entry['wins']
               player.solo_stats.losses = entry['losses']
               player.solo_stats.winrate = entry['winrate']
+              player.team_stats.wins = player.ffa_stats.wins = -1
               break
       except:
         player.solo_stats.wins = player.team_stats.wins = player.ffa_stats.wins = -1
