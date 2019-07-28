@@ -11,12 +11,14 @@ class BNetStatsScraper:
   def __get_stat(soup, stat, text):
     section_text = soup.find(text=text)
     if section_text is None:
+      stat.level = 0
       stat.wins = 0
       stat.losses = 0
       stat.win_percent = 0
       return
 
     games = section_text.find_parent('table')
+    stat.level = int(games.find(text=lambda text: text and text.startswith('Level')).split()[1])
     stat.wins = int(games.find(text='Wins:').find_next('td').text.strip())
     stat.losses = int(games.find(text='Losses:').find_next('td').text.strip())
     games_played = stat.wins + stat.losses
@@ -47,6 +49,7 @@ class BNetStatsScraper:
             if entry['name'] is None or entry['name'] is '':
               continue
             if entry['name'].lower() == player.name.lower():
+              player.solo_stats.level = entry['level']
               player.solo_stats.wins = entry['wins']
               player.solo_stats.losses = entry['losses']
               player.solo_stats.winrate = entry['winrate']

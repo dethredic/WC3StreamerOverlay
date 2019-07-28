@@ -44,22 +44,16 @@ class App extends Component {
   msg_handler(msg) {
     switch (msg.type) {
       case "player_data":
-        this.setState((state, props) => ({
-          is_in_game: state.is_in_game,
-          teams: msg.data
-        }));
+        this.setState({ teams: msg.data })
         break;
       case "game_started":
-        this.setState((state, props) => ({
-          is_in_game: true,
-          teams: state.teams
-        }));
+        this.setState({ is_in_game: true });
         break;
       case "game_ended":
-        this.setState((state, props) => ({
+        this.setState({
           is_in_game: false,
           teams: []
-        }));
+        });
         break;
       default:
         console.log("Unexpected Message");
@@ -68,10 +62,11 @@ class App extends Component {
   }
 
   render() {
-    const should_reder = this.state.is_in_game && (this.state.teams.length > 0);
+    const should_render = this.state.is_in_game && (this.state.teams.length > 0);
+
     return (
       <MuiThemeProvider theme={theme}>
-        <Fade in={should_reder}>
+        <Fade in={should_render}>
            <div><Layout teams={this.state.teams}/></div>
         </Fade>
       </MuiThemeProvider>
