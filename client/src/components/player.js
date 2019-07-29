@@ -33,7 +33,7 @@ function Player(player) {
   }
 
   return (
-    <Grid container wrap="nowrap" alignItems="center" spacing={16}>
+    <Grid container wrap="nowrap" alignItems="center" spacing={8}>
       <Grid item>
         <img width="64" alt="" src={GetRaceIcon(player.race)} />
       </Grid>
@@ -42,11 +42,11 @@ function Player(player) {
           <Grid item xs>
             {name}
           </Grid>
-          <Grid item>
-            <Typography variant="subtitle1">{`Level: ${player.level || 0}`}</Typography>
-          </Grid>
           <Grid item xs>
             <Grid container>
+              <Grid item xs>
+                <Typography variant="subtitle1">{`L:${player.level || 0}`}</Typography>
+              </Grid>
               <Grid item xs>
                 <Typography variant="subtitle1">{player.win_percentage}%</Typography>
               </Grid>
