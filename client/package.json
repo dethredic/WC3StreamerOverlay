@@ -12,7 +12,9 @@
     "react-scripts": "^2.1.5",
     "typeface-roboto": "0.0.54"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "prop-types": "15.7.2"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

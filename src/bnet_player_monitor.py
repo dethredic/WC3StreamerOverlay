@@ -28,14 +28,6 @@ class BNetPlayerMonitor(Thread):
     self.player_list = []
     self.gateway = None
 
-  def __get_player_stats(self, player):
-    player.wins, player.losses = BNetStatsScraper.get_stats(player.name, self.gateway)
-    games_played = player.wins + player.losses
-    if games_played:
-      player.win_percent = int(100 * player.wins / games_played)
-    else:
-      player.win_percent = 0
-
   def __parse_player_packet(self, player, data, name_offset):
     player.name = str(data[name_offset:].split(b'\x00')[0], 'utf-8')
     race_offset = name_offset + len(player.name) + 6

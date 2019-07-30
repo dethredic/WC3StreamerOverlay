@@ -1,5 +1,6 @@
 class Stats:
   def __init__(self):
+    self.level = None
     self.wins = None
     self.losses = None
     self.win_percent = None
@@ -23,4 +24,4 @@ class Player:
       self.__print()
 
   def __print(self):
-    print('[{}] {} ({}) - Solo: W:{} L:{} ({}%) - Team: W:{} L:{} ({}%) - FFA: W:{} L:{} ({}%)'.format(self.id, self.name, self.race, self.solo_stats.wins, self.solo_stats.losses, self.solo_stats.win_percent, self.team_stats.wins, self.team_stats.losses, self.team_stats.win_percent, self.ffa_stats.wins, self.ffa_stats.losses, self.ffa_stats.win_percent))
+    print('[{}] {} ({}) - Solo: Level: {} W:{} L:{} ({}%) - Team: Level: {} W:{} L:{} ({}%) - FFA: Level: {} W:{} L:{} ({}%)'.format(self.id, self.name, self.race, self.solo_stats.level, self.solo_stats.wins, self.solo_stats.losses, self.solo_stats.win_percent, self.team_stats.level, self.team_stats.wins, self.team_stats.losses, self.team_stats.win_percent, self.ffa_stats.level, self.ffa_stats.wins, self.ffa_stats.losses, self.ffa_stats.win_percent))

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { Grid, Typography } from "@material-ui/core/";
 
 function GetRaceIcon(race) {
@@ -27,8 +28,12 @@ function Player(player) {
     );
   }
 
+  if (player.wins === -1) {
+    return name;
+  }
+
   return (
-    <Grid container wrap="nowrap" alignItems="center" spacing={16}>
+    <Grid container wrap="nowrap" alignItems="center" spacing={8}>
       <Grid item>
         <img width="64" alt="" src={GetRaceIcon(player.race)} />
       </Grid>
@@ -39,6 +44,9 @@ function Player(player) {
           </Grid>
           <Grid item xs>
             <Grid container>
+              <Grid item xs>
+                <Typography variant="subtitle1">{`L:${player.level || 0}`}</Typography>
+              </Grid>
               <Grid item xs>
                 <Typography variant="subtitle1">{player.win_percentage}%</Typography>
               </Grid>
@@ -54,6 +62,16 @@ function Player(player) {
       </Grid>
     </Grid>
   );
+}
+
+Player.propTypes = {
+  name: PropTypes.string,
+  alias: PropTypes.string,
+  race: PropTypes.string,
+  level: PropTypes.number,
+  wins: PropTypes.number,
+  losses: PropTypes.number,
+  win_percent: PropTypes.number,
 }
 
 export default Player;
